@@ -52,12 +52,18 @@ public class UserMessageDao {
 			sql.append("FROM messages ");
 			sql.append("INNER JOIN users ");
 			sql.append("ON messages.user_id = users.id ");
+			// idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する
 			if (id != null) {
-				sql.append("WHERE messages.user_id = " + id + " ");
+				sql.append("WHERE messages.user_id = ?  ");
 			}
 			sql.append("ORDER BY created_date DESC limit " + num);
 
 			ps = connection.prepareStatement(sql.toString());
+
+			// idがnull以外だったら、バインド変数でユーザーIDをセット
+			if (id != null) {
+				ps.setInt(1, id);
+			}
 
 			ResultSet rs = ps.executeQuery();
 

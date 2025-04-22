@@ -87,8 +87,6 @@ public class MessageService {
 
 			/*
 			* messageDao.selectに引数としてInteger型のidを追加
-			* idがnullだったら全件取得する
-			* idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する
 			*/
 			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
 
