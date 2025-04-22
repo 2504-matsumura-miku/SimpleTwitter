@@ -130,11 +130,17 @@ public class SettingServlet extends HttpServlet {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");
 		}
 
+
 		if (new UserService().select(account).getId() != id) {
 			errorMessages.add("すでに存在するアカウントです");
 		}
 
 		if (errorMessages.size() != 0) {
+			return false;
+		}
+
+		// 存在しないアカウント名で更新したらエラー
+		if (new UserService().select(account) == null) {
 			return false;
 		}
 
