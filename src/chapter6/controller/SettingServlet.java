@@ -131,7 +131,7 @@ public class SettingServlet extends HttpServlet {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");
 		}
 
-		if ((userAccount != null) && (userAccount.getId() != id)) {
+		if (userAccount != null && userAccount.getId() != id) {
 			errorMessages.add("すでに存在するアカウントです");
 		}
 
