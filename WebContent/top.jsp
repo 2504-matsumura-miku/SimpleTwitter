@@ -64,12 +64,11 @@
 		<c:forEach items="${messages}" var="message">
 			<div class="message">
 				<div class="account-name">
-					<span class="account">
-						<a href="./?user_id=<c:out value="${message.userId}"/> ">
-							<c:out value="${message.account}" />
-						</a>
-					</span>
-					<span class="name"><c:out value="${message.name}" /></span>
+					<span class="account"> <a
+						href="./?user_id=<c:out value="${message.userId}"/> "> <c:out
+								value="${message.account}" />
+					</a>
+					</span> <span class="name"><c:out value="${message.name}" /></span>
 				</div>
 				<div class="text">
 					<c:out value="${message.text}" />
@@ -77,6 +76,16 @@
 				<div class="date">
 					<fmt:formatDate value="${message.createdDate}"
 						pattern="yyyy/MM/dd HH:mm:ss" />
+				</div>
+				<div class="edit-delete">
+					<form action="edit" method="post">
+						<%-- messagesテーブルのuser_idとusersテーブルのidが一致 --%>
+						<c:if test="${ not empty loginUser }">
+							<c:if test="${messagesId == usersId }">
+								<input type="submit" value="削除">
+							</c:if>
+						</c:if>
+					</form>
 				</div>
 			</div>
 		</c:forEach>
