@@ -77,12 +77,13 @@
 					<fmt:formatDate value="${message.createdDate}"
 						pattern="yyyy/MM/dd HH:mm:ss" />
 				</div>
-				<div class="edit-delete">
-					<form action="edit" method="post">
-						<%-- messagesテーブルのuser_idとusersテーブルのidが一致 --%>
+				<div class="delete-edit">
+					<form action="deleteMessage" method="post">
+						<%-- messagesテーブルのuser_idとusersテーブルのidが一致なら削除 --%>
 						<c:if test="${ not empty loginUser }">
-							<c:if test="${messagesId == usersId }">
+							<c:if test="${message.userId == loginUser.id}">
 								<input type="submit" value="削除">
+								<input name="deleteId" type="hidden" value="${message.id}">
 							</c:if>
 						</c:if>
 					</form>
