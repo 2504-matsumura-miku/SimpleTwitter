@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+
 import chapter6.beans.Message;
 import chapter6.logging.InitApplication;
 import chapter6.service.MessageService;
@@ -46,14 +48,33 @@ public class EditServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
 
-		//		String text = request.getParameter("text");
-		//        if (!isValid(text, errorMessages)) {
-		//        	session.setAttribute("errorMessages", errorMessages);
-		//        	return;
-		//        }
-
 		String editId = request.getParameter("editId");
+
+		// URLのつぶやきのIDが数字以外
+		if (!editId.matches("^[0-9]+$")) {
+			errorMessages.add("不正なパラメータが入力されました");
+			session.setAttribute("errorMessages", errorMessages);
+			response.sendRedirect("./");
+			return;
+		}
+
+		// URLのつぶやきIDが空白
+		if (StringUtils.isBlank(editId)) {
+			errorMessages.add("不正なパラメータが入力されました");
+			session.setAttribute("errorMessages", errorMessages);
+			response.sendRedirect("./");
+			return;
+		}
+
 		Message editMessage = new MessageService().editSelect(editId);
+
+		// URLのつぶやきIDが存在しない
+		if (editMessage == null) {
+			errorMessages.add("不正なパラメータが入力されました");
+			session.setAttribute("errorMessages", errorMessages);
+			response.sendRedirect("./");
+			return;
+		}
 
 		request.setAttribute("messages", editMessage);
 		request.getRequestDispatcher("edit.jsp").forward(request, response);
@@ -69,19 +90,39 @@ public class EditServlet extends HttpServlet {
 				" : " + new Object() {
 				}.getClass().getEnclosingMethod().getName());
 
-		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
 
 		String text = request.getParameter("text");
 		String editId = request.getParameter("editId");
+
+		if (!isValid(text, errorMessages)) {
+			request.setAttribute("errorMessages", errorMessages);
+			request.setAttribute("text", text);
+			request.getRequestDispatcher("edit.jsp").forward(request, response);
+			return;
+		}
+
 		new MessageService().update(text, editId);
 
 		response.sendRedirect("./");
 	}
 
-	//	private boolean isValid(Message editMessage, List<String> errorMessages) {
-	//		// TODO 自動生成されたメソッド・スタブ
-	//		return false;
-	//	}
+	private boolean isValid(String text, List<String> errorMessages) {
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
+		// 内容削除、スペース入力のみ、改行入力のみで更新するとエラー
+		if (StringUtils.isBlank(text)) {
+			errorMessages.add("入力してください");
+		} else if (140 < text.length()) {
+			errorMessages.add("140文字以下で入力してください");
+		}
+
+		if (errorMessages.size() != 0) {
+			return false;
+		}
+		return true;
+	}
 }

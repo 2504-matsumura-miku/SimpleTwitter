@@ -25,7 +25,7 @@
 			<form action="edit" method="post">
 				つぶやき<br />
 				<textarea name="text" cols="100" rows="5" class="tweet-box">
-<c:out value="${messages.text}" />
+<c:out value="${messages.text}"  />
 			</textarea>
 				<input type="submit" value="更新">（140文字まで） <input
 					name="editId" type="hidden" value="${messages.id}"><br />
