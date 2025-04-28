@@ -78,15 +78,18 @@
 						pattern="yyyy/MM/dd HH:mm:ss" />
 				</div>
 				<div class="delete-edit">
-					<form action="deleteMessage" method="post">
-						<%-- messagesテーブルのuser_idとusersテーブルのidが一致なら削除 --%>
-						<c:if test="${ not empty loginUser }">
-							<c:if test="${message.userId == loginUser.id}">
+					<c:if test="${ not empty loginUser }">
+						<c:if test="${message.userId == loginUser.id}">
+							<form action="edit" method="get">
+								 <input type="submit"value="編集">
+								 <input name="editId" type="hidden"value="${message.id}">
+							</form>
+							<form action="deleteMessage" method="post">
 								<input type="submit" value="削除">
-								<input name="deleteId" type="hidden" value="${message.id}">
-							</c:if>
+								<input name="deleteId" type="hidden"value="${message.id}">
+							</form>
 						</c:if>
-					</form>
+					</c:if>
 				</div>
 			</div>
 		</c:forEach>

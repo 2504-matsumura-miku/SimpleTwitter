@@ -108,7 +108,7 @@ public class MessageService {
 	}
 
 	/*
-	* 削除IDを取得
+	* 削除用IDを取得
 	*/
 	public void delete(String deleteId) {
 
@@ -138,6 +138,67 @@ public class MessageService {
 		} finally {
 			close(connection);
 		}
+	}
+
+	// 編集用IDを取得
+	public Message editSelect(String Id) {
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			Integer editId = Integer.parseInt(Id);
+			Message message = new MessageDao().selectEdit(connection, editId);
+			commit(connection);
+
+			return message;
+
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
+
+	}
+
+	public void update(String text, String id) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		Connection connection = null;
+		Integer editId = Integer.parseInt(id);
+		try {
+			connection = getConnection();
+			new MessageDao().update(connection, text, editId);
+			commit(connection);
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
+
 	}
 
 }
