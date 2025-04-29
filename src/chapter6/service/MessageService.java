@@ -107,9 +107,7 @@ public class MessageService {
 		}
 	}
 
-	/*
-	* 削除用IDを取得
-	*/
+	// 削除用IDを取得
 	public void delete(String deleteId) {
 
 		log.info(new Object() {
@@ -155,7 +153,6 @@ public class MessageService {
 			commit(connection);
 
 			return message;
-
 		} catch (RuntimeException e) {
 			rollback(connection);
 			log.log(Level.SEVERE, new Object() {

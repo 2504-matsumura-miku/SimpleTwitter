@@ -78,7 +78,6 @@ public class EditServlet extends HttpServlet {
 
 		request.setAttribute("messages", editMessage);
 		request.getRequestDispatcher("edit.jsp").forward(request, response);
-
 	}
 
 	@Override

@@ -120,12 +120,12 @@ public class MessageDao {
 
 			List<Message> message = toEditMessages(rs);
 
+			// 存在しないIDの場合
 			if (message.size() == 0) {
 				return null;
 			} else {
 				return message.get(0);
 			}
-
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {
 			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
