@@ -51,16 +51,8 @@ public class EditServlet extends HttpServlet {
 
 		List<String> errorMessages = new ArrayList<String>();
 
-		// URLのつぶやきのIDが数字以外
-		if (!editId.matches("^[0-9]+$")) {
-			errorMessages.add("不正なパラメータが入力されました");
-			session.setAttribute("errorMessages", errorMessages);
-			response.sendRedirect("./");
-			return;
-		}
-
-		// URLのつぶやきIDが空白
-		if (StringUtils.isBlank(editId)) {
+		// URLのつぶやきのIDが数字以外か空白の場合はエラー
+		if (!editId.matches("^[0-9]+$") || StringUtils.isBlank(editId)) {
 			errorMessages.add("不正なパラメータが入力されました");
 			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
@@ -68,21 +60,10 @@ public class EditServlet extends HttpServlet {
 		}
 
 		Message editMessage = new MessageService().editSelect(editId);
-
-		// URLのつぶやきIDが存在しない
-		if (editMessage == null) {
-			errorMessages.add("不正なパラメータが入力されました");
-			session.setAttribute("errorMessages", errorMessages);
-			response.sendRedirect("./");
-			return;
-		}
-
-		// 別ユーザーのつぶやきは編集できないように設定
 		User user = (User) request.getSession().getAttribute("loginUser");
-		int loginUserId = user.getId();
-		int intMessageUserId = editMessage.getUserId();
 
-		if (loginUserId != intMessageUserId) {
+		// URLのつぶやきIDが未存在か別ユーザーの場合はエラー
+		if (editMessage == null || user.getId() != editMessage.getUserId()) {
 			errorMessages.add("不正なパラメータが入力されました");
 			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
