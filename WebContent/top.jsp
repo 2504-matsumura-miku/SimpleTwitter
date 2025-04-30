@@ -54,7 +54,7 @@
 				<form action="message" method="post">
 					いま、どうしてる？<br />
 					<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea><br />
-					<input type="submit" value="つぶやく">（140文字まで）
+					<p><input type="submit" value="つぶやく">（140文字まで）</p>
 				</form>
 			</c:if>
 		</div>
@@ -74,16 +74,30 @@
 				<div class="date">
 					<fmt:formatDate value="${message.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
 				</div>
-				<div class="delete-edit">
+				<div class="edit-area">
 					<c:if test="${ not empty loginUser }">
 						<c:if test="${message.userId == loginUser.id}">
-							<form action="edit" method="get">
-								<input type="submit" value="編集">
-								<input name="editId" type="hidden" value="${message.id}">
-							</form>
-							<form action="deleteMessage" method="post">
-								<input type="submit" value="削除">
-								<input name="deleteId" type="hidden" value="${message.id}">
+							<div style="display:inline-flex">
+								<form action="edit" method="get">
+									<p>
+									<input type="submit" value="編集">
+									<input name="editId" type="hidden" value="${message.id}">
+									</p>
+								</form>
+								<form action="deleteMessage" method="post">
+									<p>
+									<input type="submit" value="削除">
+									<input name="deleteId" type="hidden" value="${message.id}">
+									</p>
+								</form>
+							</div><br />
+							返信
+							<form action="comment" method="post">
+							<div class="reply-text">
+								<textarea name="replyText" cols="100" rows="5" class="tweet-box"></textarea><br />
+								<pre><c:out value="${commrnt.text}" /></pre>
+								<p><input type="submit" value="返信" name="replyId" type="hidden" value="${comment.id}"></p>
+							</div>
 							</form>
 						</c:if>
 					</c:if>
