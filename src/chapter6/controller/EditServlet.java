@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 
 import chapter6.beans.Message;
+import chapter6.beans.User;
 import chapter6.logging.InitApplication;
 import chapter6.service.MessageService;
 
@@ -46,9 +47,9 @@ public class EditServlet extends HttpServlet {
 				}.getClass().getEnclosingMethod().getName());
 
 		HttpSession session = request.getSession();
-		List<String> errorMessages = new ArrayList<String>();
-
 		String editId = request.getParameter("editId");
+
+		List<String> errorMessages = new ArrayList<String>();
 
 		// URLのつぶやきのIDが数字以外
 		if (!editId.matches("^[0-9]+$")) {
@@ -70,6 +71,18 @@ public class EditServlet extends HttpServlet {
 
 		// URLのつぶやきIDが存在しない
 		if (editMessage == null) {
+			errorMessages.add("不正なパラメータが入力されました");
+			session.setAttribute("errorMessages", errorMessages);
+			response.sendRedirect("./");
+			return;
+		}
+
+		// 別ユーザーのつぶやきは編集できないように設定
+		User user = (User) request.getSession().getAttribute("loginUser");
+		int loginUserId = user.getId();
+		int intMessageUserId = editMessage.getUserId();
+
+		if (loginUserId != intMessageUserId) {
 			errorMessages.add("不正なパラメータが入力されました");
 			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");

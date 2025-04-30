@@ -148,7 +148,8 @@ public class MessageService {
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			Integer editId = Integer.parseInt(Id);
+			int editId = Integer.parseInt(Id);
+
 			Message message = new MessageDao().selectEdit(connection, editId);
 			commit(connection);
 
@@ -177,7 +178,7 @@ public class MessageService {
 				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
-		Integer editId = Integer.parseInt(id);
+		int editId = Integer.parseInt(id);
 		try {
 			connection = getConnection();
 			new MessageDao().update(connection, text, editId);

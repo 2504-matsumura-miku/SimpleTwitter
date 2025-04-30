@@ -97,7 +97,7 @@ public class MessageDao {
 		}
 	}
 
-	public Message selectEdit(Connection connection, Integer id) {
+	public Message selectEdit(Connection connection, int id) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -160,7 +160,7 @@ public class MessageDao {
 		}
 	}
 
-	public void update(Connection connection, String text, Integer editId) {
+	public void update(Connection connection, String text, int editId) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -172,7 +172,8 @@ public class MessageDao {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("UPDATE messages SET ");
-			sql.append("    text = ? ");
+			sql.append("    text = ?, ");
+			sql.append("    updated_date = CURRENT_TIMESTAMP ");
 			sql.append("WHERE id = ?");
 
 			ps = connection.prepareStatement(sql.toString());
