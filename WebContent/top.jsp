@@ -91,15 +91,27 @@
 									</p>
 								</form>
 							</div><br />
-							返信
-							<form action="comment" method="post">
+						</c:if>
+						返信
+						<form action="comment" method="post">
+							<div class="account-name">
+								<span class="account">
+									<c:out value="${comment.account}" />
+								</span>
+								<span class="name">
+									<c:out value="${comment.name}" />
+								</span>
+							</div>
 							<div class="reply-text">
 								<textarea name="replyText" cols="100" rows="5" class="tweet-box"></textarea><br />
 								<pre><c:out value="${commrnt.text}" /></pre>
-								<p><input type="submit" value="返信" name="replyId" type="hidden" value="${comment.id}"></p>
+								<p><input type="submit" value="返信">
+								   <input name="replyId" type="hidden" value="${message.id}"></p>
 							</div>
-							</form>
-						</c:if>
+							<div class="date">
+								<fmt:formatDate value="${comment.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
+							</div>
+						</form>
 					</c:if>
 				</div>
 			</div>
