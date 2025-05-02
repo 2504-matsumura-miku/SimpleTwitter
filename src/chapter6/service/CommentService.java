@@ -59,7 +59,7 @@ public class CommentService {
 		}
 	}
 
-	public List<UserComment> select(String replyId) {
+	public List<UserComment> select() {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -69,9 +69,9 @@ public class CommentService {
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			Integer id = Integer.parseInt(replyId);
+//			Integer id = Integer.parseInt();
 
-			List<UserComment> comments = new UserCommentDao().select(connection, id);
+			List<UserComment> comments = new UserCommentDao().select(connection);
 
 			commit(connection);
 			return comments;

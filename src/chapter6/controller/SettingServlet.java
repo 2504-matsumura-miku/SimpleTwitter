@@ -85,7 +85,7 @@ public class SettingServlet extends HttpServlet {
 		}
 
 		session.setAttribute("loginUser", user);
-		response.sendRedirect("./");
+		response.sendRedirect(".login");
 	}
 
 	private User getUser(HttpServletRequest request) throws IOException, ServletException {

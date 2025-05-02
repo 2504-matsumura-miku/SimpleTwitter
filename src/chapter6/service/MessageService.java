@@ -4,6 +4,8 @@ import static chapter6.utils.CloseableUtil.*;
 import static chapter6.utils.DBUtil.*;
 
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,10 +87,15 @@ public class MessageService {
 				id = Integer.parseInt(userId);
 			}
 
+			// 現在の日時を取得
+			Date nowDate = new Date();
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			String formatNowDate = sdf1.format(nowDate);
+
 			/*
-			* messageDao.selectに引数としてInteger型のidを追加
+			* messageDao.selectに引数としてInteger型のidと現在の日時を追加
 			*/
-			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
+			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM, formatNowDate);
 
 			commit(connection);
 			return messages;
