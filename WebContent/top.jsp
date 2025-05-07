@@ -38,19 +38,16 @@
 					<c:out value="${loginUser.description}" />
 				</div>
 			</div>
-			<div class="calendar">
-			<form action="/index.jsp" method="post">
-				日付：
-				<input type="date" value="年/月/日" />
-				<input name="start" type="hidden" value="${start}" />
-				～
-				<input type="date" value="年/月/日" />
-				<input name="finish" type="hidden" value="${finish}" />
-				<input type="submit" value="絞り込み">
-				<input name="narrowDown" type="hidden" value="${start}" value="${finish}">
-			</form>
-			</div><br />
 		</c:if>
+			<div class="calendar">
+				<form action="./" method="get">
+					日付：
+					<input type="date" name="start" type="hidden" value="${start}" />
+					～
+					<input type="date" name="end" type="hidden" value="${end}" />
+					<input type="submit" value="絞り込み">
+				</form>
+			</div><br />
 		<c:if test="${ not empty errorMessages }">
 			<div class="errorMessages">
 				<ul>

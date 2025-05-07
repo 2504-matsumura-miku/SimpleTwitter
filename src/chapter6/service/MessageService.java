@@ -65,7 +65,7 @@ public class MessageService {
 	/*
 	* selectの引数にString型のuserIdを追加
 	*/
-	public List<UserMessage> select(String userId) {
+	public List<UserMessage> select(String userId, String start, String end) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -87,15 +87,25 @@ public class MessageService {
 				id = Integer.parseInt(userId);
 			}
 
-			// 現在の日時を取得
-			Date nowDate = new Date();
-			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			String formatNowDate = sdf1.format(nowDate);
+			if (StringUtils.isBlank(start)) {
+				start = "2020/01/01 00:00:00";
+			} else {
+				start += " 00:00:00";
+			}
+
+			if (StringUtils.isBlank(end)) {
+				// 現在の日時を取得
+				Date nowDate = new Date();
+				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				end = sdf1.format(nowDate);
+			} else {
+				end += " 23:59:59";
+			}
 
 			/*
 			* messageDao.selectに引数としてInteger型のidと現在の日時を追加
 			*/
-			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM, formatNowDate);
+			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM, start, end);
 
 			commit(connection);
 			return messages;
