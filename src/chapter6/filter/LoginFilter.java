@@ -30,8 +30,8 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 
-		HttpServletRequest sessionRequest = (HttpServletRequest) request;
-		HttpSession session = sessionRequest.getSession();
+		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+		HttpSession session = httpServletRequest.getSession();
 		User loginUser = (User) session.getAttribute("loginUser");
 
 		// セッションにログインユーザーの情報があればユーザー設定が編集の画面に遷移
@@ -39,12 +39,12 @@ public class LoginFilter implements Filter {
 			// サーブレットを実行
 			chain.doFilter(request, response);
 		} else {
-			HttpServletResponse sessionResponse = (HttpServletResponse) response;
+			HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 			List<String> errorMessages = new ArrayList<String>();
 
 			errorMessages.add("ログインをしてください");
 			session.setAttribute("errorMessages", errorMessages);
-			sessionResponse.sendRedirect("login");
+			httpServletResponse.sendRedirect("login");
 		}
 	}
 

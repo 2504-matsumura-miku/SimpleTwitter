@@ -102,13 +102,12 @@
 							</div><br />
 						</c:if>
 						<form action="comment" method="post">
-							<input name="message_id" value="${message.id}" type="hidden" />
 							返信<br />
 							<textarea name="replyText" cols="100" rows="5" class="tweet-box"></textarea>
 							<br />
 							<p>
 								<input type="submit" value="返信">（140文字まで）
-								 <input name="replyId" type="hidden" value="${message.id}">
+								<input name="replyId" type="hidden" value="${message.id}">
 							</p>
 						</form>
 						<c:forEach items="${comments}" var="comment">
