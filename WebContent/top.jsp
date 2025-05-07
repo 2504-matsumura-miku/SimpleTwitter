@@ -99,7 +99,7 @@
 								<form action="deleteMessage" method="post">
 									<!-- 削除ボタンをクリックしたらダイアログを表示 -->
 									<p>
-									<input id="btn" type="submit" value="削除">
+									<input id="deleteBtn" type="submit" value="削除">
 									<input name="deleteId" type="hidden" value="${message.id}">
 									</p>
 

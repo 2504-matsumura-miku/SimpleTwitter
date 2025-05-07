@@ -20,12 +20,6 @@ import chapter6.beans.User;
 @WebFilter(urlPatterns = { "/setting", "/edit" })
 public class LoginFilter implements Filter {
 
-	public static String INIT_PARAMETER_NAME_ENCODING = "encoding";
-
-	public static String DEFAULT_ENCODING = "UTF-8";
-
-	private String encoding;
-
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
@@ -50,14 +44,6 @@ public class LoginFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig config) {
-		encoding = config.getInitParameter(INIT_PARAMETER_NAME_ENCODING);
-		if (encoding == null) {
-			System.out.println("EncodingFilter# デフォルトのエンコーディング(UTF-8)を利用します。");
-			encoding = DEFAULT_ENCODING;
-		} else {
-			System.out.println("EncodingFilter# 設定されたエンコーディング(" + encoding
-					+ ")を利用します。。");
-		}
 	}
 
 	@Override
